@@ -7,7 +7,7 @@ Proyecto de análisis y predicción en League of Legends orientado a detectar la
 - Dataset de las partidas que analicé. En formato CSV y Excel.
 
 ## Uso
-Descargar los dataset y ejecutar en Jupyter el código o en Github.
+Descargar los dataset y ejecutar en Jupyter el código.
 
 ## Estado del proyecto
 Actualmente:
