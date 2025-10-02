@@ -21,3 +21,4 @@ Actualmente:
 - Reescribir las observaciones de la exploración de los datos y su análisis
 - Rehacer comparativas del jugador en el análisis descriptivo vs jugadores de su elo y jugadores profesionales.
 - Generar las conclusiones del proyecto
+- Editar comentarios para que sea mas legible
