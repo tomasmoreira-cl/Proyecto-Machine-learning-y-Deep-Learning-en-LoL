@@ -1,4 +1,4 @@
-# Proyecto-Machine-learning-y-Deep-Learning-en-LoL
+# Proyecto-Machine-learning-y-Deep-Learning-en-LoL (in-progress)
 Proyecto de análisis y predicción en League of Legends orientado a detectar las variables que influyen más en las victorias de cada partida. El objetivo es identificar factores de microjuego del jugador que impactan en el rendimiento y, a partir de ello, generar aprendizajes para aumentar las probabilidades de ganar partidas.
 
 ## Contenido
@@ -13,12 +13,11 @@ Descargar los dataset y ejecutar en Jupyter el código.
 Actualmente:
 - Limpieza del dataset ✅
 - Exploración inicial de datos 🔄
-- Análisis descriptivo 🔄
-- Modelamiento con machine learning y Deep Learning: Regresión logística, SVM con ajuste de hiperparámetros, Árboles de decisión, Random Forest, Red neuronal multicapa y XGBoosting. ✅
-- Conclusiones finales. Predicción de victoria y microgame del jugador. ❌ (en progreso)
+- Análisis descriptivo 🔄 (en progreso)
+- Modelamiento con machine learning y Deep Learning: Regresión logística, SVM con ajuste de hiperparámetros, Árboles de decisión, Random Forest, Red neuronal multicapa y XGBoosting. ❌
+- Conclusiones finales. Predicción de victoria y microgame del jugador. ❌ 
 
 ## Próximos pasos
-- Reescribir las observaciones de la exploración de los datos y su análisis
-- Rehacer comparativas del jugador en el análisis descriptivo vs jugadores de su elo y jugadores profesionales.
-- Generar las conclusiones del proyecto
+- Analizar las observaciones de la exploración de los datos y su análisis
+- Rehacer comparativas el análisis descriptivo de mis partidas vs jugadores de mi elo y superior.
 - Editar comentarios para que sea mas legible
