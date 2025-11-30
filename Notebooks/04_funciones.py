@@ -2,6 +2,84 @@ import pandas as pd
 import numpy as np
 import re
 from sklearn.preprocessing import StandardScaler
+from scipy.stats import mannwhitneyu
+
+def test_mann_whitney(df, col_metrica, col_grupo, val_grupo1=1, val_grupo0=0, alpha=0.05, alternative='two-sided'):
+    """
+    Ejecuta el Test U de Mann-Whitney a un nivel de confianza personalizado con un tipo de test a elección. 
+    Toma una columna numérica (col_métrica) y las agrupa por una columna binaria (col_grupo). Los valores de agrupación
+    se indican en val_grupo0 y val_grupo1.
+    
+    Parámetros:
+    - df: DataFrame con los datos.
+    - col_metrica: Columna numérica a analizar (ej: 'wards_per_min', 'salario').
+    - col_grupo: Columna binaria que separa los grupos (ej: 'win', 'genero').
+    - val_grupo1: Valor que define al 'Grupo de Interés' o Grupo 1 (ej: 1, 'Mujer').
+    - val_grupo0: Valor que define al 'Grupo de Referencia' o Grupo 0 (ej: 0, 'Hombre').
+    - alternative: 'two-sided', 'greater', 'less'.
+      * greater = Grupo A > Grupo B.
+      * less = Grupo A < Grupo B.
+      * two-sided = Grupo A =! Grupo B.
+      
+    """
+    
+    # 1. Validación de columnas
+    if col_metrica not in df.columns or col_grupo not in df.columns:
+        print(f"Error: Columna '{col_metrica}' o '{col_grupo}' no encontrada.")
+        return
+
+    # 2. Separación de Grupos Dinámica
+    # Usamos los valores pasados como argumentos (val_grupo1, val_grupo0)
+    data_g1 = df[df[col_grupo] == val_grupo1][col_metrica].dropna()
+    data_g0 = df[df[col_grupo] == val_grupo0][col_metrica].dropna()
+
+    if len(data_g1) == 0 or len(data_g0) == 0:
+        print(f"Error: No hay datos para el grupo '{val_grupo1}' o '{val_grupo0}'.")
+        return
+
+    # 3. Cálculo de Estadísticos
+    media_g1 = data_g1.mean()
+    media_g0 = data_g0.mean()
+    
+    # 4. Ejecución del Test
+    stat, p_value = mannwhitneyu(data_g1, data_g0, alternative=alternative)
+
+    # 5. Reporte Agnóstico (Sin términos de negocio)
+    print(f"📊 TEST MANN-WHITNEY: '{col_metrica}' por '{col_grupo}'")
+    
+    if alternative == 'greater':
+        type_test = 'mayor'
+        print(f"   H1 (Hipótesis Alternativa): Grupo '{val_grupo1}' es {type_test.upper()} que Grupo '{val_grupo0}'")
+
+    elif alternative == 'less':
+        type_test = 'menor'
+        print(f"   H1 (Hipótesis Alternativa): Grupo '{val_grupo1}' es {type_test.upper()} que Grupo '{val_grupo0}'")
+
+    else:
+        type_test = 'diferente'
+        print(f"   H1 (Hipótesis Alternativa): Grupo '{val_grupo1}' es {type_test.upper()} del Grupo '{val_grupo0}'")
+    
+    
+    # 6. Interpretación Estadística Pura
+    if p_value < alpha:
+        print(f"   ✅ RESULTADO SIGNIFICATIVO (p < {alpha})")
+        print(f"   -> Se rechaza la Hipótesis Nula (H0).")
+        
+        if alternative == 'greater':
+            print(f"   -> Hay evidencia de que '{col_metrica}' es MAYOR en el grupo '{val_grupo1}'.")
+        elif alternative == 'less':
+            print(f"   -> Hay evidencia de que '{col_metrica}' es MENOR en el grupo '{val_grupo1}'.")
+        else:
+            print(f"   -> Hay evidencia de una diferencia en la distribución entre grupos.")
+    else:
+        print(f"   ❌ NO SIGNIFICATIVO (p >= {alpha})")
+        print(f"   -> No se puede rechazar la Hipótesis Nula (H0).")
+        print(f"   -> No hay evidencia suficiente para afirmar la relación planteada.")
+    
+    print("-" * 60 + "\n")
+    return stat, p_value
+    
+# -------------------------------------------------------------------------------------------
 
 def scaler(df, X_train, X_test, col_excluidas: list = []):
     
@@ -149,11 +227,12 @@ def hora_to_datetime(df,columna_datetime):
 #---------------------------------------------------------------           
 def borrar_atipicos_IQR(data, col_select=None,ignore_umbral=False):
     '''
-    Calcula los límites inferiores y superiores de todas las columnas de un dataframe 
+    Calcula los límites inferiores y superiores de una columna de un dataframe 
     usando el IQR, muestra el número de datos atípicos y el porcentaje, y elimina los 
     registros con valores atípicos si el porcentaje es menor al 5%. También excluye las 
     columnas especificadas en 'drop_columns' de la eliminación.
     ''' 
+    data = data.copy()
     col_select = list(col_select)
     if col_select is None:  
         col_df = data.columns
@@ -196,11 +275,12 @@ def borrar_atipicos_IQR(data, col_select=None,ignore_umbral=False):
         ls = Q3 + 1.5 * IQR  # Límite superior
 
         # Filtra los datos no atípicos para esta columna
-        total_atipicos_col = len(data[(data[columna] < li) | (data[columna] > ls)])  # Registros atípicos
+        registros_atipicos = data[(data[columna] < li) | (data[columna] > ls)]
+        total_atipicos_col = len(registros_atípicos)  # Registros atípicos
         percent_atipicos_col = (total_atipicos_col / len(data[columna])) * 100
 
         print(f"\nEl total de datos atípicos en '{columna}' es: {total_atipicos_col}. Representan el {percent_atipicos_col:.3f}% de los datos.")
-
+        
         # Se evalua si se ingora o no el umbral del 5% para saber si se borran o no los valores outliers
         if ignore_umbral == True:
             print("Se eliminaron los registros con valores atípicos.")
@@ -217,7 +297,7 @@ def borrar_atipicos_IQR(data, col_select=None,ignore_umbral=False):
         resultados.append({"nombre_columna": columna, "datos_atipicos": total_atipicos_col, "porcentaje": percent_atipicos_col})
 
     # Devuelve el data frame eliminando los atípicos si es que los hay
-    return data
+    return registros_atipicos, data
 #--------------------------------------------------------------- 
 
 def clasificar(cadena):
