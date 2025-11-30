@@ -12,8 +12,8 @@ Descargar los dataset y ejecutar el código en Jupyter.
 ## Estado del proyecto
 Actualmente:
 - Limpieza del dataset ✅
-- Exploración inicial de datos 🔄
-- Análisis descriptivo 🔄 (en progreso)
+- Exploración inicial de datos ✅
+- Análisis descriptivo ✅ (en progreso)
 - Modelamiento con machine learning y Deep Learning: Regresión logística, SVM con ajuste de hiperparámetros, Árboles de decisión, Random Forest, Red neuronal multicapa y XGBoosting. ❌
 - Conclusiones finales. Predicción de victoria y microgame del jugador. ❌ 
 
