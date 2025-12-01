@@ -1,14 +1,16 @@
-# 🏆 League of Legends Gameplay Audit: Data-Driven Climbing Strategy
-### Análisis Estadístico y mejora del Rendimiento Personal
+# 🏆 Auditoria de Gamplay en League of Legends: Estrategia de ascenso basada en datos
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
-![Type](https://img.shields.io/badge/Type-Data%20Science%20Portfolio-orange)
-
-> **Estado Actual:** 🚧 Proyecto en desarrollo. Fase de Análisis Descriptivo e Inferencial completada; Modelado Predictivo en curso.
+![Status](https://img.shields.io/badge/Status-Phase%201%20Completed-green)
+![Type](https://img.shields.io/badge/Type-Data%20Analysis-orange)
 
 ## 🎯 Objetivo del Proyecto
-Sistema de análisis de rendimiento y predicción para League of Legends basado en datos históricos personales. El proyecto emplea estadística inferencial y algoritmos de Machine Learning para detectar ineficiencias tácticas (visión, economía, pool de campeones) y transformar patrones de juego en una estrategia de ascenso cuantificable.
+Realizar una **auditoría estadística y predictiva** del rendimiento personal en *League of Legends*. El proyecto utiliza un enfoque híbrido:
+
+1.  **Análisis Inferencial (EDA):** Para identificar ineficiencias tácticas (gestión de oro, visión, champion pool) y desmitificar patrones del matchmaking mediante validación estadística.
+2.  **Machine Learning:** Para entrenar modelos supervisados capaces de **clasificar resultados y predecir victorias**, determinando matemáticamente qué variables (features) tienen mayor peso predictivo en el desenlace de la partida.
+
+> **Estado Actual:** 🚧 Proyecto en desarrollo. Fase de Análisis Descriptivo e Inferencial completada; Modelado Predictivo en curso.
 
 ## 📂 Contenido del Repositorio
 
