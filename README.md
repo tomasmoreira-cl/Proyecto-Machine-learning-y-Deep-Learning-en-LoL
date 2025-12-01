@@ -1,78 +1,60 @@
-# Proyecto-Machine-learning-y-Deep-Learning-en-LoL (in-progress)
-Proyecto de análisis y predicción en League of Legends orientado a detectar las variables que influyen más en las victorias de cada partida. El objetivo es identificar factores de microjuego del jugador que impactan en el rendimiento y, a partir de ello, generar aprendizajes para aumentar las probabilidades de ganar partidas.
-
-## Contenido
-- Notebooks de jupyter que he utilizado para realizar los análisis descriptivos y modelos.
-- Funciones auxiliares que utilicé dentro de los notebooks.
-- Dataset de las partidas que analicé. En formato CSV y Excel.
-
-## Uso
-Descargar los dataset y ejecutar el código en Jupyter.
-
-## Estado del proyecto
-Actualmente:
-- Limpieza del dataset ✅
-- Exploración inicial de datos ✅
-- Análisis descriptivo ✅ (en progreso)
-- Modelamiento con machine learning y Deep Learning: Regresión logística, SVM con ajuste de hiperparámetros, Árboles de decisión, Random Forest, Red neuronal multicapa y XGBoosting. ❌
-- Conclusiones finales. Predicción de victoria y microgame del jugador. ❌ 
-
-## Próximos pasos
-- Analizar las observaciones de la exploración de los datos y su análisis
-- Rehacer comparativas el análisis descriptivo de mis partidas vs jugadores de mi elo y superior.
-- Editar comentarios para que sea mas legible
-
----------------------
-
-# 🏆 League of Legends AI Coach: Data-Driven Climbing Strategy
+# 🏆 League of Legends AI Coach: Data-Driven Strategy
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
 ![Type](https://img.shields.io/badge/Type-Data%20Science%20Portfolio-orange)
 
-> **Estado Actual:** 🚧 Proyecto en desarrollo activo. Fase de Análisis Descriptivo e Inferencial completada.
+> **Estado Actual:** 🚧 Proyecto en desarrollo. Fase de Análisis Descriptivo e Inferencial completada; Modelado Predictivo en curso.
 
 ## 🎯 Objetivo del Proyecto
-Este proyecto utiliza **Ciencia de Datos y Machine Learning** para auditar el rendimiento personal en *League of Legends*. El objetivo es identificar ineficiencias reales (gestión de oro, visión, champion pool) y desarrollar modelos predictivos que aumenten la probabilidad de victoria, eliminando mitos sobre el matchmaking mediante validación estadística.
+Sistema de análisis de rendimiento y predicción para League of Legends basado en datos históricos personales. El proyecto emplea estadística inferencial y algoritmos de Machine Learning para detectar ineficiencias tácticas (visión, economía, pool de campeones) y transformar patrones de juego en una estrategia de ascenso cuantificable.
 
 ## 📂 Contenido del Repositorio
 
-El flujo de trabajo está dividido secuencialmente en la carpeta `Notebooks`:
+El flujo de trabajo y las conclusiones detalladas se encuentran en la carpeta `notebooks`:
 
 | Archivo | Descripción |
 | :--- | :--- |
-| `01_extract_Flex_games.ipynb` | **Extracción ETL:** Conexión a la API de Riot para descargar el historial de partidas Flex. Genera `raw_flex.csv`. |
-| `02_extract_SoloQ_games.ipynb` | **Extracción ETL:** Conexión a la API de Riot para descargar el historial de partidas SoloQ. Genera `raw_soloQ.csv`. |
-| `03_EDA.ipynb` | **Análisis Principal:** Limpieza de datos, Feature Engineering (Rachas, Visión/Min), Tests de Hipótesis y generación del dataset maestro (`processed_data.csv`). |
-| `funciones.py` | **Librería Auxiliar:** Contiene las funciones estadísticas (Mann-Whitney U) y de visualización reutilizables. |
+| `01_extract_Flex_games.ipynb` | **Extracción ETL:** Script de conexión a la Riot API para descargar historial de partidas Flex. |
+| `02_extract_SoloQ_games.ipynb` | **Extracción ETL:** Script de conexión a la Riot API para descargar historial de partidas SoloQ. |
+| `03_EDA.ipynb` | **Análisis Principal:** Limpieza, Feature Engineering, Tests de Hipótesis y generación del dataset maestro. **Contiene el diagnóstico de Visión, Rachas y Champion Pool.** |
+| `funciones.py` | **Librería Auxiliar:** Funciones reutilizables para tests estadísticos y gráficos. |
 
-## 📊 Hallazgos Clave (Fase 1)
+## 📊 Hallazgos Clave (Fase 1: EDA e Inferencia)
 
-Las conclusiones detalladas se encuentran al final del notebook `03_EDA.ipynb`. Algunos hallazgos estratégicos incluyen:
+### 1. Eficiencia de la Visión (Flex vs SoloQ)
+Mediante tests de hipótesis (Inferencial), se descubrió una divergencia estratégica:
+* **En Flex Queue:** El volumen de visión no correlaciona con la victoria ($p > 0.05$), indicando una saturación de recursos ineficiente.
+* **En Solo Queue:** La calidad de visión (`vs_per_min`) demostró ser estadísticamente significativa ($p < 0.01$), validando que en el juego individual la precisión supera a la cantidad.
 
-### 1. La Paradoja de la Visión
-* **Flex Queue:** Se detectó una "Saturación Ineficiente". El volumen de wards es alto pero tiene **correlación nula ($p > 0.05$)** con la victoria.
-* **Solo Queue:** La **calidad** de visión (`vs_per_min`) demostró ser estadísticamente significativa, validando una estrategia de "Calidad sobre Cantidad".
+### 2. Análisis de Rendimiento por Campeón (Champion Pool)
+Se evaluó el Win Ratio histórico para depurar la cartera de campeones:
+* **Activos:** Sejuani, Jarvan IV y Malphite (WR > 55%).
+* **Pasivos:** Trundle y Soportes defensivos (WR < 48%).
 
-### 2. El "Muro" del Matchmaking
-El análisis de series temporales confirmó un **Techo de Habilidad Rígido** tras 3 victorias consecutivas. El rendimiento individual colapsa en la 4ta partida debido al aumento de MMR, descartando factores psicológicos (Tilt) y validando la dificultad del sistema.
+### 3. Elasticidad del Matchmaking ("El Muro de las 3 Victorias")
+El análisis de series temporales reveló un **Techo de Habilidad** tras rachas de 3 victorias consecutivas, donde la probabilidad de ganar la 4ta partida cae drásticamente. El análisis de métricas individuales bajo presión descartó factores psicológicos, apuntando a un aumento de dificultad del MMR como causa principal.
+
+### 4. Matriz de Correlación
+El análisis de correlación reveló la jerarquía real de los factores de victoria:
+* **Factor Determinante:** La **Economía Temprana** (`min15_gold_diff`) mostró la correlación más alta (**> 0.25**), confirmando que el "Snowball" es el predictor más fuerte.
+* **Factores Secundarios:** El KDA y la Experiencia siguen en importancia.
+* **Factor "Freno":** La **Racha Previa** mostró una correlación negativa, validando matemáticamente que entrar en racha aumenta la dificultad y reduce la probabilidad de ganar.
 
 ## 🛠️ Stack Tecnológico
 * **Lenguaje:** Python.
 * **Librerías:** Pandas, NumPy, SciPy (Estadística Inferencial), Matplotlib, Seaborn.
 * **Datos:** Riot Games API (Match V5).
 
-## 📂 Estructura de Archivos
+## 🚀 Instrucciones de Uso
+1.  Clonar el repositorio.
+2.  Instalar dependencias: `pip install -r requirements.txt`
+3.  Ejecutar los notebooks en orden numérico para reproducir el pipeline.
 
-```text
-├── data/                   # Almacenamiento de datos
-│   ├── processed_data.csv  # Dataset limpio y enriquecido (Listo para ML)
-│   ├── raw_flex.csv        # Datos crudos Flex
-│   └── raw_soloQ.csv       # Datos crudos SoloQ
-├── Notebooks/              # Código fuente
-│   ├── 01_extract_Flex_games.ipynb
-│   ├── 02_extract_SoloQ_games.ipynb
-│   ├── 03_EDA.ipynb
-│   └── funciones.py
-├── .gitignore
-└── README.md
+---
+## 📅 Roadmap (Próximas Etapas)
+- [ ] **Fase 2: Modelado Predictivo:** Implementación de algoritmos (XGBoost, Regresión, Random Forest, Red neuronal y SVM) para estimar probabilidad de victoria pre-partida.
+- [ ] **Fase 3: Optimización:** Tuning de hiperparámetros y selección de features basada en importancia (Feature Importance).
+
+---
+**Autor:** Tomás Moreira | [LinkedIn](https://www.linkedin.com/in/tomas-moreira/)
