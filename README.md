@@ -36,16 +36,21 @@ Se evaluó el Win Ratio histórico para depurar la cartera de campeones:
 El análisis de series temporales reveló un **Techo de Habilidad** tras rachas de 3 victorias consecutivas, donde la probabilidad de ganar la 4ta partida cae drásticamente. El análisis de métricas individuales bajo presión descartó factores psicológicos, apuntando a un aumento de dificultad del MMR como causa principal.
 
 ### 4. Matriz de Correlación
-El análisis de correlación reveló la jerarquía real de los factores de victoria:
-* **Factor Determinante:** La **Economía Temprana** (`min15_gold_diff`) mostró la correlación más alta (**> 0.25**), confirmando que el "Snowball" es el predictor más fuerte.
-* **Factores Secundarios:** El KDA y la Experiencia siguen en importancia.
-* **Factor "Freno":** La **Racha Previa** mostró una correlación negativa, validando matemáticamente que entrar en racha aumenta la dificultad y reduce la probabilidad de ganar.
+El análisis de correlación reveló lo siguiente:
 
+1.  **En SoloQ:** Mis juego se deciden en los primeros 15 minutos. La estrategia óptima es **Agresiva/Snowball**. Debo priorizar campeones de *Early/Mid Game* que puedan ganar línea y convertir ese oro en KDA rápidamente, ya que el sistema no perdona las desventajas económicas.
+
+2.  **En Flex:** El juego es permisivo. La estrategia óptima es **Coordinada/Scaling**. Puedo permitirme perder línea levemente si eso garantiza mejor peleas de equipo (*Teamfighting*) tarde, ya que el oro temprano no dicta la sentencia final.
+
+3.  **Gestión de Expectativas:** Debo asumir que tras una racha positiva, la siguiente partida tendrá una probabilidad base de victoria menor debido al ajuste de MMR, independientemente de mi desempeño.
+   
+----
 ## 🛠️ Stack Tecnológico
 * **Lenguaje:** Python.
 * **Librerías:** Pandas, NumPy, SciPy (Estadística Inferencial), Matplotlib, Seaborn.
 * **Datos:** Riot Games API (Match V5).
-
+  
+---
 ## 🚀 Instrucciones de Uso
 1.  Clonar el repositorio.
 2.  Instalar dependencias: `pip install -r requirements.txt`
