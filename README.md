@@ -1,4 +1,5 @@
-# 🏆 League of Legends AI Coach: Data-Driven Strategy
+# 🏆 League of Legends Gameplay Audit: Data-Driven Climbing Strategy
+### Análisis Estadístico y mejora del Rendimiento Personal
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
